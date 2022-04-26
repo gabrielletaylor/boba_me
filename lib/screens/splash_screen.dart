@@ -15,8 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigatetohome() async {
-    await Future.delayed(Duration(milliseconds: 4000), () {});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Boba Me')));
+    await Future.delayed(Duration(milliseconds: 5000), () {});
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
   }
 
   @override
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Boba Me',
                   style: TextStyle(
                     fontFamily: 'Gaegu',
-                    fontSize: 45,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold
                   ),
               )
