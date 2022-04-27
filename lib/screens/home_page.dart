@@ -1,3 +1,4 @@
+import 'package:boba_me/screens/request_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -12,30 +13,80 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String dropDownValue = 'Select one', randomOrder = '';
-  bool milkTeaCheck = false, fruitTeaCheck = false, slushCheck = false;
-  bool toppingsCheck = false, coffeeCheck = false;
+  var choices = ['Select one', '7 Leaves Cafe', 'Sunright Tea Studio', 'Sharetea', 'Gong Cha'];
+  bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
+  bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
 
-  void loadOrder() async {
+  List<String> getFromMap(Map map, String key, [String value = '']) {
+    List<String> list = [];
+    if (value != '') {
+      if (map[key].containsKey(value)) {
+        for (var val in map[key][value]) {
+          list.add(val);
+        }
+      }
+    }
+    else {
+      if (map.containsKey('toppings')) {
+        for (var val in map[key]) {
+          list.add(val);
+        }
+      }
+    }
+    return list;
+  }
+
+  void loadOrder() {
     var drinkList = [], toppingsList = [];
     final _random = Random();
-    randomOrder = '';
 
     if (dropDownValue == 'Select one') {
       randomOrder = '';
     }
     else {
-      DatabaseReference drinksRef = FirebaseDatabase.instance.ref('places/' +
-          dropDownValue + '/drinks');
-      DatabaseReference toppingsRef = FirebaseDatabase.instance.ref('places/' +
-          dropDownValue + '/toppings');
-      DatabaseEvent event1 = await drinksRef.once();
-      DatabaseEvent event2 = await toppingsRef.once();
+      randomOrder = '';
+      FirebaseDatabase.instance.ref('places/' +
+          dropDownValue).get()
+          .then((snapshot) {
+            Map map = snapshot.value as Map;
+            if (milkTeaCheck == false && fruitTeaCheck == false && teaCheck == false
+                && slushCheck == false && coffeeCheck == false && toppingsCheck== false) {
+              drinkList.addAll(getFromMap(map, 'drinks', 'milk tea'));
+              drinkList.addAll(getFromMap(map, 'drinks', 'fruit tea'));
+              drinkList.addAll(getFromMap(map, 'drinks', 'tea'));
+              drinkList.addAll(getFromMap(map, 'drinks', 'slush'));
+              drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
+              toppingsList.addAll(getFromMap(map, 'toppings'));
+              randomOrder = drinkList[_random.nextInt(drinkList.length)];
+              randomOrder += '\nwith ' + toppingsList[_random.nextInt(toppingsList.length)];
+            }
 
-      drinkList = event1.snapshot.value as List;
-      toppingsList = event2.snapshot.value as List;
+            else {
+              if (milkTeaCheck) {
+                drinkList.addAll(getFromMap(map, 'drinks', 'milk tea'));
+              }
+              if (fruitTeaCheck) {
+                drinkList.addAll(getFromMap(map, 'drinks', 'fruit tea'));
+              }
+              if (teaCheck) {
+                drinkList.addAll(getFromMap(map, 'drinks', 'tea'));
+              }
+              if (slushCheck) {
+                drinkList.addAll(getFromMap(map, 'drinks', 'slush'));
+              }
+              if (coffeeCheck) {
+                drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
+              }
+              randomOrder += drinkList[_random.nextInt(drinkList.length)];
 
-      randomOrder += drinkList[_random.nextInt(drinkList.length)];
-      randomOrder += '\nwith ' + toppingsList[_random.nextInt(toppingsList.length)];
+              if (toppingsCheck) {
+                toppingsList.addAll(getFromMap(map, 'toppings'));
+                randomOrder += '\nwith ' + toppingsList[_random.nextInt(toppingsList.length)];
+              }
+            }
+
+            setState(() {});
+      }).catchError((error) {});
     }
 
     setState(() {});
@@ -55,99 +106,55 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                      flex: 20,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/jasmine-milk-tea.png',
-                            ),
-                            Image.asset(
-                              'assets/images/thai-tea.png',
-                            ),
-                            Image.asset(
-                              'assets/images/brown-sugar-milk-tea.png',
-                            ),
-                          ],
-                        ),
-                      )
-                  ),
-                  Expanded(
                     flex: 20,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 75,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 25, right: 5),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    value: dropDownValue,
-                                    icon: Icon(
-                                        Icons.arrow_downward,
-                                        color: Color(0xff7c5b56)),
-                                    elevation: 16,
-                                    style: TextStyle(color: Color(0xff7c5b56)),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Color(0xff7c5b56),
+                    child: Container(
+                      margin: EdgeInsets.only(top: 15),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              flex: 75,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 25, right: 5),
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      value: dropDownValue,
+                                      icon: Icon(
+                                          Icons.arrow_downward,
+                                          color: Color(0xff7c5b56)),
+                                      elevation: 16,
+                                      style: TextStyle(color: Color(0xff7c5b56)),
+                                      underline: Container(
+                                        height: 2,
+                                        color: Color(0xff7c5b56),
+                                      ),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropDownValue = newValue!;
+                                        });
+                                      },
+                                      items: choices.map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                                fontFamily: 'Varela Round',
+                                                color: const Color(0xff7c5b56),
+                                                fontSize: 20
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        dropDownValue = newValue!;
-                                      });
-                                    },
-                                    items: <String>['Select one', '7 Leaves Cafe', 'Sharetea', 'Gong Cha']
-                                        .map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                              fontFamily: 'Varela Round',
-                                              color: const Color(0xff7c5b56,),
-                                              fontSize: 20
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 23),
-                                  child: Row(
-                                    children: [
-                                      Theme(
-                                        data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
-                                        child: SizedBox(
-                                          height: 35,
-                                          width: 35,
-                                          child: Checkbox(
-                                            activeColor: Color(0xff7c5b56),
-                                            checkColor: Colors.white,
-                                            value: milkTeaCheck,
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                milkTeaCheck = value!;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        'Milk Tea',
-                                      style: TextStyle(
-                                          color: const Color(0xff7c5b56)
-                                      )
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Theme(
+                                  Container(
+                                    margin: EdgeInsets.only(left: 23),
+                                    child: Row(
+                                      children: [
+                                        Theme(
                                           data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                           child: SizedBox(
                                             height: 35,
@@ -155,25 +162,81 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: Checkbox(
                                               activeColor: Color(0xff7c5b56),
                                               checkColor: Colors.white,
-                                              value: fruitTeaCheck,
+                                              value: milkTeaCheck,
                                               onChanged: (bool? value) {
                                                 setState(() {
-                                                  fruitTeaCheck = value!;
+                                                  milkTeaCheck = value!;
                                                 });
                                               },
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                          'Fruit Tea',
-                                          style: TextStyle(
-                                              color: const Color(0xff7c5b56)
-                                          )
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Theme(
+                                        Text(
+                                          'Milk Tea',
+                                        style: TextStyle(
+                                            color: const Color(0xff7c5b56)
+                                        )
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Theme(
+                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            child: SizedBox(
+                                              height: 35,
+                                              width: 35,
+                                              child: Checkbox(
+                                                activeColor: Color(0xff7c5b56),
+                                                checkColor: Colors.white,
+                                                value: fruitTeaCheck,
+                                                onChanged: (bool? value) {
+                                                  setState(() {
+                                                    fruitTeaCheck = value!;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                            'Fruit Tea',
+                                            style: TextStyle(
+                                                color: const Color(0xff7c5b56)
+                                            )
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Theme(
+                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            child: SizedBox(
+                                              height: 35,
+                                              width: 35,
+                                              child: Checkbox(
+                                                activeColor: Color(0xff7c5b56),
+                                                checkColor: Colors.white,
+                                                value: teaCheck,
+                                                onChanged: (bool? value) {
+                                                  setState(() {
+                                                    teaCheck = value!;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                            'Tea',
+                                            style: TextStyle(
+                                                color: const Color(0xff7c5b56)
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 23),
+                                    child: Row(
+                                      children: [
+                                        Theme(
                                           data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                           child: SizedBox(
                                             height: 35,
@@ -190,84 +253,80 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                          'Slush',
-                                          style: TextStyle(
-                                              color: const Color(0xff7c5b56)
-                                          )
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 23),
-                                  child: Row(
-                                    children: [
-                                      Theme(
-                                        data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
-                                        child: SizedBox(
-                                          height: 35,
-                                          width: 35,
-                                          child: Checkbox(
-                                            activeColor: Color(0xff7c5b56),
-                                            checkColor: Colors.white,
-                                            value: coffeeCheck,
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                coffeeCheck = value!;
-                                              });
-                                            },
-                                          ),
+                                        Text(
+                                            'Slush',
+                                            style: TextStyle(
+                                                color: const Color(0xff7c5b56)
+                                            )
                                         ),
-                                      ),
-                                      Text(
-                                          'Coffee',
-                                          style: TextStyle(
-                                              color: const Color(0xff7c5b56)
-                                          )
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 21),
-                                        child: Theme(
-                                          data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
-                                          child: SizedBox(
-                                            height: 35,
-                                            width: 35,
-                                            child: Checkbox(
-                                              activeColor: Color(0xff7c5b56),
-                                              checkColor: Colors.white,
-                                              value: toppingsCheck,
-                                              onChanged: (bool? value) {
-                                                setState(() {
-                                                  toppingsCheck = value!;
-                                                });
-                                              },
+                                        Container(
+                                          margin: EdgeInsets.only(left: 17),
+                                          child: Theme(
+                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            child: SizedBox(
+                                              height: 35,
+                                              width: 35,
+                                              child: Checkbox(
+                                                activeColor: Color(0xff7c5b56),
+                                                checkColor: Colors.white,
+                                                value: coffeeCheck,
+                                                onChanged: (bool? value) {
+                                                  setState(() {
+                                                    coffeeCheck = value!;
+                                                  });
+                                                },
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                          'Toppings',
-                                          style: TextStyle(
-                                              color: const Color(0xff7c5b56)
-                                          )
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                        ),
-                        Expanded(
-                            flex: 25,
-                            child: IconButton(
-                              icon: Image.asset('assets/images/splash_logo.png'),
-                              iconSize: 70,
-                              onPressed: loadOrder,
-                            )
-                        ),
-                      ],
+                                        Text(
+                                            'Coffee',
+                                            style: TextStyle(
+                                                color: const Color(0xff7c5b56)
+                                            )
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Theme(
+                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            child: SizedBox(
+                                              height: 35,
+                                              width: 35,
+                                              child: Checkbox(
+                                                activeColor: Color(0xff7c5b56),
+                                                checkColor: Colors.white,
+                                                value: toppingsCheck,
+                                                onChanged: (bool? value) {
+                                                  setState(() {
+                                                    toppingsCheck = value!;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                            'Toppings',
+                                            style: TextStyle(
+                                                color: const Color(0xff7c5b56)
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )
+                          ),
+                          Expanded(
+                              flex: 25,
+                              child: IconButton(
+                                icon: Image.asset('assets/images/splash_logo.png'),
+                                iconSize: 70,
+                                onPressed: loadOrder,
+                              )
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
@@ -278,16 +337,39 @@ class _MyHomePageState extends State<MyHomePage> {
                             right: 30,
                             bottom: 15
                         ),
-                        child: Column(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 30),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                  randomOrder,
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Color(0xff4b553a)
+                                  ),
+                                  textAlign: TextAlign.center
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                  ),
+                  Expanded(
+                      flex: 20,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 15),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                                randomOrder,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Color(0xff4b553a)
-                                ),
-                                textAlign: TextAlign.center
+                          children: [
+                            Image.asset(
+                              'assets/images/jasmine-milk-tea.png',
+                            ),
+                            Image.asset(
+                              'assets/images/thai-tea.png',
+                            ),
+                            Image.asset(
+                              'assets/images/brown-sugar-milk-tea.png',
                             ),
                           ],
                         ),
@@ -315,7 +397,45 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ]
             )
-        )
+        ),
+      endDrawer: Drawer(
+        child: Container(
+          color: const Color(0xffb87368),
+          child: ListView(
+            padding: EdgeInsets.only(top: 49),
+            children: [
+              ListTile(
+                title: const Text(
+                    'Home',
+                  style: TextStyle(
+                      fontFamily: 'Varela Round',
+                      color: Colors.white,
+                      fontSize: 25
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  'Request',
+                  style: TextStyle(
+                      fontFamily: 'Varela Round',
+                      color: Colors.white,
+                      fontSize: 25
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPage()));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
