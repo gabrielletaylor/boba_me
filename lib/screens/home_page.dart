@@ -12,7 +12,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  String dropDownValue = 'Select one', randomOrder = '';
+  String dropDownValue = 'Select one', randomOrder = '', randomTopping = '';
   var choices = ['Select one', '7 Leaves Cafe', 'Sunright Tea Studio', 'Sharetea', 'Gong Cha'];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
@@ -58,7 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
               drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
               toppingsList.addAll(getFromMap(map, 'toppings'));
               randomOrder = drinkList[_random.nextInt(drinkList.length)];
-              randomOrder += '\nwith ' + toppingsList[_random.nextInt(toppingsList.length)];
+              randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
+              while (randomOrder.contains(randomTopping)) {
+                randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
+              }
+              randomOrder += '\nwith ' + randomTopping;
             }
 
             else {
@@ -81,7 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
               if (toppingsCheck) {
                 toppingsList.addAll(getFromMap(map, 'toppings'));
-                randomOrder += '\nwith ' + toppingsList[_random.nextInt(toppingsList.length)];
+                randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
+                while (randomOrder.contains(randomTopping)) {
+                  randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
+                }
+                randomOrder += '\nwith ' + randomTopping;
               }
             }
 
@@ -106,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 20,
+                    flex: 25,
                     child: Container(
                       margin: EdgeInsets.only(top: 15),
                       child: Row(
@@ -117,41 +125,46 @@ class _MyHomePageState extends State<MyHomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: 25, right: 5),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      value: dropDownValue,
-                                      icon: Icon(
-                                          Icons.arrow_downward,
-                                          color: Color(0xff7c5b56)),
-                                      elevation: 16,
-                                      style: TextStyle(color: Color(0xff7c5b56)),
-                                      underline: Container(
-                                        height: 2,
-                                        color: Color(0xff7c5b56),
-                                      ),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          dropDownValue = newValue!;
-                                        });
-                                      },
-                                      items: choices.map<DropdownMenuItem<String>>((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(
-                                            value,
-                                            style: TextStyle(
-                                                fontFamily: 'Varela Round',
-                                                color: const Color(0xff7c5b56),
-                                                fontSize: 20
+                                    margin: EdgeInsets.only(left: 20, right: 5),
+                                    child: ButtonTheme(
+                                      alignedDropdown: true,
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        value: dropDownValue,
+                                        icon: Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Color(0xff7c5b56)
+                                        ),
+                                            iconSize: 36,
+                                        elevation: 16,
+                                        style: TextStyle(color: Color(0xff7c5b56)),
+                                        underline: Container(
+                                          height: 2,
+                                          color: Color(0xff7c5b56),
+                                        ),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            dropDownValue = newValue!;
+                                          });
+                                        },
+                                        items: choices.map<DropdownMenuItem<String>>((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  fontFamily: 'Varela Round',
+                                                  color: const Color(0xff7c5b56),
+                                                  fontSize: 20
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }).toList(),
+                                          );
+                                        }).toList(),
+                                      ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 23),
+                                    margin: EdgeInsets.only(left: 20),
                                     child: Row(
                                       children: [
                                         Theme(
@@ -233,7 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 23),
+                                    margin: EdgeInsets.only(left: 20),
                                     child: Row(
                                       children: [
                                         Theme(
@@ -260,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             )
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 17),
+                                          margin: EdgeInsets.only(left: 13),
                                           child: Theme(
                                             data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                             child: SizedBox(
@@ -330,7 +343,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Expanded(
-                      flex: 40,
+                      flex: 35,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 30,
@@ -366,10 +379,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               'assets/images/jasmine-milk-tea.png',
                             ),
                             Image.asset(
-                              'assets/images/thai-tea.png',
+                              'assets/images/matcha-milk-tea.png',
                             ),
                             Image.asset(
-                              'assets/images/brown-sugar-milk-tea.png',
+                              'assets/images/thai-tea.png',
                             ),
                           ],
                         ),
@@ -383,13 +396,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              'assets/images/honeydew-milk-tea.png',
+                              'assets/images/taro-milk-tea.png',
                             ),
                             Image.asset(
                               'assets/images/milk-tea.png',
                             ),
                             Image.asset(
-                              'assets/images/taro-milk-tea.png',
+                              'assets/images/strawberry-milk-tea.png',
                             ),
                           ],
                         ),

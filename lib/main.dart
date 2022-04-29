@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           color: const Color(0xffb87368)
         ),
-        fontFamily: 'Varela Round'
+        fontFamily: 'Varela Round',
       ),
       home: SplashScreen(),
     );

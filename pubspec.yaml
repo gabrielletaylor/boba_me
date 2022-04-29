@@ -66,12 +66,16 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/brown-sugar-milk-tea.png
-    - assets/images/honeydew-milk-tea.png
+    - assets/images/matcha-milk-tea.png
     - assets/images/milk-tea.png
     - assets/images/taro-milk-tea.png
     - assets/images/splash_logo.png
     - assets/images/jasmine-milk-tea.png
     - assets/images/thai-tea.png
+    - assets/images/honeydew-milk-tea.png
+    - assets/images/strawberry-milk-tea.png
+    - assets/images/coffee.png
+    - assets/images/slushie.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
