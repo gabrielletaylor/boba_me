@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             color: Color(0xff7c5b56)
                                         ),
                                             iconSize: 36,
-                                        elevation: 16,
+                                        elevation: 17,
                                         style: TextStyle(color: Color(0xff7c5b56)),
                                         underline: Container(
                                           height: 2,
@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               style: TextStyle(
                                                   fontFamily: 'Varela Round',
                                                   color: const Color(0xff7c5b56),
-                                                  fontSize: 20
+                                                  fontSize: 21
                                               ),
                                             ),
                                           );
@@ -411,41 +411,54 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]
             )
         ),
-      endDrawer: Drawer(
-        child: Container(
-          color: const Color(0xffb87368),
-          child: ListView(
-            padding: EdgeInsets.only(top: 49),
-            children: [
-              ListTile(
-                title: const Text(
+      endDrawer: Container(
+        width: 250,
+        child: Drawer(
+          child: Container(
+            color: const Color(0xffb87368),
+            child: ListView(
+              padding: EdgeInsets.only(top: 50),
+              children: [
+                ListTile(
+                  trailing: Icon(
+                    Icons.home,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: const Text(
                     'Home',
-                  style: TextStyle(
-                      fontFamily: 'Varela Round',
-                      color: Colors.white,
-                      fontSize: 25
+                    style: TextStyle(
+                        fontFamily: 'Varela Round',
+                        color: Colors.white,
+                        fontSize: 25
+                    ),
+                    textAlign: TextAlign.right,
                   ),
-                  textAlign: TextAlign.right,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text(
-                  'Request',
-                  style: TextStyle(
-                      fontFamily: 'Varela Round',
-                      color: Colors.white,
-                      fontSize: 25
+                ListTile(
+                  trailing: Icon(
+                    Icons.add,
+                    size: 30,
+                    color: Colors.white,
                   ),
-                  textAlign: TextAlign.right,
+                  title: const Text(
+                    'Request',
+                    style: TextStyle(
+                        fontFamily: 'Varela Round',
+                        color: Colors.white,
+                        fontSize: 25
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPage()));
+                  },
                 ),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPage()));
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

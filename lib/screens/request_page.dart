@@ -404,41 +404,54 @@ class _RequestPageState extends State<RequestPage> {
             ),
           )
       ),
-      endDrawer: Drawer(
-        child: Container(
-          color: const Color(0xffb87368),
-          child: ListView(
-            padding: EdgeInsets.only(top: 49),
-            children: [
-              ListTile(
-                title: const Text(
-                  'Home',
-                  style: TextStyle(
-                      fontFamily: 'Varela Round',
-                      color: Colors.white,
-                      fontSize: 25
+      endDrawer: Container(
+        width: 250,
+        child: Drawer(
+          child: Container(
+            color: const Color(0xffb87368),
+            child: ListView(
+              padding: EdgeInsets.only(top: 50),
+              children: [
+                ListTile(
+                  trailing: Icon(
+                    Icons.home,
+                    size: 30,
+                    color: Colors.white,
                   ),
-                  textAlign: TextAlign.right,
-                ),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
-                },
-              ),
-              ListTile(
-                title: const Text(
-                  'Request',
-                  style: TextStyle(
-                      fontFamily: 'Varela Round',
-                      color: Colors.white,
-                      fontSize: 25
+                  title: const Text(
+                    'Home',
+                    style: TextStyle(
+                        fontFamily: 'Varela Round',
+                        color: Colors.white,
+                        fontSize: 25
+                    ),
+                    textAlign: TextAlign.right,
                   ),
-                  textAlign: TextAlign.right,
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                ListTile(
+                  trailing: Icon(
+                    Icons.add,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: const Text(
+                    'Request',
+                    style: TextStyle(
+                        fontFamily: 'Varela Round',
+                        color: Colors.white,
+                        fontSize: 25
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
