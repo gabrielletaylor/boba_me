@@ -12,7 +12,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  String dropDownValue = 'Select one', randomOrder = '', randomTopping = '';
+  String dropDownValue = 'Select one', randomOrder = '', randomTopping = '', topping = '';
   var choices = ['Select one', '7 Leaves Cafe', 'Sunright Tea Studio', 'Sharetea', 'Gong Cha'];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
@@ -42,9 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (dropDownValue == 'Select one') {
       randomOrder = '';
+      randomTopping = '';
     }
     else {
       randomOrder = '';
+      randomTopping = '';
+      topping = '';
       FirebaseDatabase.instance.ref('places/' +
           dropDownValue).get()
           .then((snapshot) {
@@ -58,11 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
               drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
               toppingsList.addAll(getFromMap(map, 'toppings'));
               randomOrder = drinkList[_random.nextInt(drinkList.length)];
-              randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
-              while (randomOrder.contains(randomTopping)) {
-                randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
+              topping = toppingsList[_random.nextInt(toppingsList.length)];
+              while (randomOrder.contains(topping)) {
+                topping = toppingsList[_random.nextInt(toppingsList.length)];
               }
-              randomOrder += '\nwith ' + randomTopping;
+              randomTopping = 'with ' + topping;
             }
 
             else {
@@ -85,11 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
               if (toppingsCheck) {
                 toppingsList.addAll(getFromMap(map, 'toppings'));
-                randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
-                while (randomOrder.contains(randomTopping)) {
-                  randomTopping = toppingsList[_random.nextInt(toppingsList.length)];
+                topping = toppingsList[_random.nextInt(toppingsList.length)];
+                while (randomOrder.contains(topping)) {
+                  topping = toppingsList[_random.nextInt(toppingsList.length)];
                 }
-                randomOrder += '\nwith ' + randomTopping;
+                randomTopping = 'with ' + topping;
               }
             }
 
@@ -360,6 +363,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: TextStyle(
                                     fontSize: 30,
                                     color: Color(0xff4b553a)
+                                  ),
+                                  textAlign: TextAlign.center
+                              ),
+                              Text(
+                                  randomTopping,
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: Color(0xffdb6551)
                                   ),
                                   textAlign: TextAlign.center
                               ),

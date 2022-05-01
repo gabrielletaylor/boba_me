@@ -25,6 +25,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileSdkVersion flutter.compileSdkVersion
 
@@ -50,13 +56,21 @@ android {
         versionName flutterVersionName
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
     }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
 flutter {
@@ -65,4 +79,21 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // in below line we are adding configurations to to our project.
+    configurations.all {
+        // in below line we are adding strategy for each dependency and requesting the details
+        resolutionStrategy.eachDependency {DependencyResolveDetails details ->
+            // on below line we are getting to see the details using requested.
+            def requested = details.requested
+            // in below line we are requesting a group.
+            if (requested.group == 'com.android.support'){
+                // on below line we are checking if the request is a group and checking if it starts with com.android.support.
+                if(!requested.name.startsWith("multidex")){
+                    // if the requested name starts with multi dex then we are displaying the use version which is given below.
+                    details.useVersion '25.3.0'
+                }
+            }
+        }
+    }
+
 }
