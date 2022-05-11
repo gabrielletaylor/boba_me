@@ -3,6 +3,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'how_to_page.dart';
+
 
 class RequestPage extends StatefulWidget {
   const RequestPage({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ class _RequestPageState extends State<RequestPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              '\nDon\'t see your favorite boba place?'
+                              '\nDon\'t see your favorite boba shop?'
                                   + '\nRequest it below with the city'
                                   + '\nand state to be added!',
                               style: TextStyle(
@@ -77,7 +79,7 @@ class _RequestPageState extends State<RequestPage> {
                                   horizontal: 20,
                                   vertical: 20,
                                 ),
-                                hintText: 'Enter a boba place',
+                                hintText: 'Enter a boba shop',
                                   hintStyle: TextStyle(
                                       color: Color(0xff7c5b56)
                                   ),
@@ -450,6 +452,25 @@ class _RequestPageState extends State<RequestPage> {
                     Navigator.pop(context);
                   },
                 ),
+                // ListTile(
+                //   trailing: Icon(
+                //     Icons.question_mark,
+                //     size: 30,
+                //     color: Colors.white,
+                //   ),
+                //   title: const Text(
+                //     'How To',
+                //     style: TextStyle(
+                //         fontFamily: 'Varela Round',
+                //         color: Colors.white,
+                //         fontSize: 25
+                //     ),
+                //     textAlign: TextAlign.right,
+                //   ),
+                //   onTap: () {
+                //     Navigator.push(context, MaterialPageRoute(builder: (context) => How_To_Page()));
+                //   },
+                // ),
               ],
             ),
           ),

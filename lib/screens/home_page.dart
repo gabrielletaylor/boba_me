@@ -1,3 +1,4 @@
+import 'package:boba_me/screens/how_to_page.dart';
 import 'package:boba_me/screens/request_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String dropDownValue = 'Select one', randomOrder = '', randomTopping = '', topping = '';
-  var choices = ['Select one', '7 Leaves Cafe', 'Sunright Tea Studio', 'Sharetea', 'Gong Cha'];
+  var choices = ['Select one', '7 Leaves Cafe', 'Gong Cha', 'Omomo', 'Sharetea', 'Sunright Tea Studio', 'Ten Ren\'s Tea Time'];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
 
@@ -138,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             Icons.arrow_drop_down,
                                             color: Color(0xff7c5b56)
                                         ),
-                                            iconSize: 36,
+                                        iconSize: 36,
                                         elevation: 17,
                                         style: TextStyle(color: Color(0xff7c5b56)),
                                         underline: Container(
@@ -413,7 +414,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               'assets/images/milk-tea.png',
                             ),
                             Image.asset(
-                              'assets/images/strawberry-milk-tea.png',
+                              'assets/images/peach-milk-tea.png',
                             ),
                           ],
                         ),
@@ -468,6 +469,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPage()));
                   },
                 ),
+                // ListTile(
+                //   trailing: Icon(
+                //     Icons.question_mark,
+                //     size: 30,
+                //     color: Colors.white,
+                //   ),
+                //   title: const Text(
+                //     'How To',
+                //     style: TextStyle(
+                //         fontFamily: 'Varela Round',
+                //         color: Colors.white,
+                //         fontSize: 25
+                //     ),
+                //     textAlign: TextAlign.right,
+                //   ),
+                //   onTap: () {
+                //     Navigator.push(context, MaterialPageRoute(builder: (context) => How_To_Page()));
+                //   },
+                // ),
               ],
             ),
           ),
