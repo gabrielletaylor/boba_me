@@ -14,7 +14,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String dropDownValue = 'Select one', randomOrder = '', randomTopping = '', topping = '';
-  var choices = ['Select one', '7 Leaves Cafe', 'Gong Cha', 'Omomo', 'Sharetea', 'Sunright Tea Studio', 'Ten Ren\'s Tea Time'];
+  var choices = ['Select one', '7 Leaves Cafe', 'Gong Cha',
+                 'Omomo', 'Sharetea', 'Sunright Tea Studio',
+                 'Tastea', 'Ten Ren\'s Tea Time'];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
 
@@ -423,76 +425,76 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]
             )
         ),
-      endDrawer: Container(
-        width: 250,
-        child: Drawer(
-          child: Container(
-            color: const Color(0xffb87368),
-            child: ListView(
-              padding: EdgeInsets.only(top: 50),
-              children: [
-                ListTile(
-                  trailing: Icon(
-                    Icons.home,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                  title: const Text(
-                    'Home',
-                    style: TextStyle(
-                        fontFamily: 'Varela Round',
-                        color: Colors.white,
-                        fontSize: 25
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  trailing: Icon(
-                    Icons.add,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                  title: const Text(
-                    'Request',
-                    style: TextStyle(
-                        fontFamily: 'Varela Round',
-                        color: Colors.white,
-                        fontSize: 25
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPage()));
-                  },
-                ),
-                // ListTile(
-                //   trailing: Icon(
-                //     Icons.question_mark,
-                //     size: 30,
-                //     color: Colors.white,
-                //   ),
-                //   title: const Text(
-                //     'How To',
-                //     style: TextStyle(
-                //         fontFamily: 'Varela Round',
-                //         color: Colors.white,
-                //         fontSize: 25
-                //     ),
-                //     textAlign: TextAlign.right,
-                //   ),
-                //   onTap: () {
-                //     Navigator.push(context, MaterialPageRoute(builder: (context) => How_To_Page()));
-                //   },
-                // ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      // endDrawer: Container(
+      //   width: 250,
+      //   child: Drawer(
+      //     child: Container(
+      //       color: const Color(0xffb87368),
+      //       child: ListView(
+      //         padding: EdgeInsets.only(top: 50),
+      //         children: [
+      //           ListTile(
+      //             trailing: Icon(
+      //               Icons.home,
+      //               size: 30,
+      //               color: Colors.white,
+      //             ),
+      //             title: const Text(
+      //               'Home',
+      //               style: TextStyle(
+      //                   fontFamily: 'Varela Round',
+      //                   color: Colors.white,
+      //                   fontSize: 25
+      //               ),
+      //               textAlign: TextAlign.right,
+      //             ),
+      //             onTap: () {
+      //               Navigator.pop(context);
+      //             },
+      //           ),
+      //           ListTile(
+      //             trailing: Icon(
+      //               Icons.add,
+      //               size: 30,
+      //               color: Colors.white,
+      //             ),
+      //             title: const Text(
+      //               'Request',
+      //               style: TextStyle(
+      //                   fontFamily: 'Varela Round',
+      //                   color: Colors.white,
+      //                   fontSize: 25
+      //               ),
+      //               textAlign: TextAlign.right,
+      //             ),
+      //             onTap: () {
+      //               Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPage()));
+      //             },
+      //           ),
+      //           // ListTile(
+      //           //   trailing: Icon(
+      //           //     Icons.question_mark,
+      //           //     size: 30,
+      //           //     color: Colors.white,
+      //           //   ),
+      //           //   title: const Text(
+      //           //     'How To',
+      //           //     style: TextStyle(
+      //           //         fontFamily: 'Varela Round',
+      //           //         color: Colors.white,
+      //           //         fontSize: 25
+      //           //     ),
+      //           //     textAlign: TextAlign.right,
+      //           //   ),
+      //           //   onTap: () {
+      //           //     Navigator.push(context, MaterialPageRoute(builder: (context) => How_To_Page()));
+      //           //   },
+      //           // ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
