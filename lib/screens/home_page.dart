@@ -3,6 +3,7 @@ import 'package:boba_me/screens/request_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:async';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -14,11 +15,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String dropDownValue = 'Select one', randomOrder = '', randomTopping = '', topping = '';
-  var choices = ['Select one', '7 Leaves Cafe', 'Gong Cha',
+  var choices = ['Select one', '7 Leaves Cafe', '85°C Bakery Cafe',
+                 'Ding Tea', 'Gong Cha', 'It\'s Boba Time',
                  'Omomo', 'Sharetea', 'Sunright Tea Studio',
                  'Tastea', 'Ten Ren\'s Tea Time'];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
+  bool isProcessing = false;
 
   List<String> getFromMap(Map map, String key, [String value = '']) {
     List<String> list = [];
@@ -39,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return list;
   }
 
-  void loadOrder() {
+  void loadDrink() {
     var drinkList = [], toppingsList = [];
     final _random = Random();
 
@@ -106,6 +109,18 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
+  void getDrink() {
+    const milli = Duration(milliseconds: 150);
+    var count = 1;
+    Timer.periodic(milli, (Timer timer) {
+      loadDrink();
+      count++;
+      if (count > 11) {
+        timer.cancel();
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           );
                                         }).toList(),
+                                        // menuMaxHeight: 500,
                                       ),
                                     ),
                                   ),
@@ -176,8 +192,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Theme(
                                           data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                           child: SizedBox(
-                                            height: 35,
-                                            width: 35,
+                                            height: 31,
+                                            width: 31,
                                             child: Checkbox(
                                               activeColor: Color(0xff7c5b56),
                                               checkColor: Colors.white,
@@ -197,12 +213,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         )
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 10),
+                                          margin: EdgeInsets.only(left: 15),
                                           child: Theme(
                                             data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                             child: SizedBox(
-                                              height: 35,
-                                              width: 35,
+                                              height: 31,
+                                              width: 31,
                                               child: Checkbox(
                                                 activeColor: Color(0xff7c5b56),
                                                 checkColor: Colors.white,
@@ -223,12 +239,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                             )
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 10),
+                                          margin: EdgeInsets.only(left: 15),
                                           child: Theme(
                                             data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                             child: SizedBox(
-                                              height: 35,
-                                              width: 35,
+                                              height: 31,
+                                              width: 31,
                                               child: Checkbox(
                                                 activeColor: Color(0xff7c5b56),
                                                 checkColor: Colors.white,
@@ -258,8 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Theme(
                                           data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                           child: SizedBox(
-                                            height: 35,
-                                            width: 35,
+                                            height: 31,
+                                            width: 31,
                                             child: Checkbox(
                                               activeColor: Color(0xff7c5b56),
                                               checkColor: Colors.white,
@@ -283,8 +299,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Theme(
                                             data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                             child: SizedBox(
-                                              height: 35,
-                                              width: 35,
+                                              height: 31,
+                                              width: 31,
                                               child: Checkbox(
                                                 activeColor: Color(0xff7c5b56),
                                                 checkColor: Colors.white,
@@ -305,12 +321,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                             )
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 10),
+                                          margin: EdgeInsets.only(left: 12),
                                           child: Theme(
                                             data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
                                             child: SizedBox(
-                                              height: 35,
-                                              width: 35,
+                                              height: 31,
+                                              width: 31,
                                               child: Checkbox(
                                                 activeColor: Color(0xff7c5b56),
                                                 checkColor: Colors.white,
@@ -338,10 +354,53 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           Expanded(
                               flex: 25,
-                              child: IconButton(
-                                icon: Image.asset('assets/images/splash_logo.png'),
-                                iconSize: 70,
-                                onPressed: loadOrder,
+                              // child: IconButton(
+                              //   icon: Image.asset('assets/images/splash_logo.png'),
+                              //   iconSize: 70,
+                              //   onPressed: getDrink,
+                              // )
+                              child: Container(
+                                margin: EdgeInsets.only(left: 10, right: 14),
+                                child: SizedBox(
+                                  height: 42,
+                                  child: FilledButton(
+                                    child: Text(
+                                      'Go',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    style: FilledButton.styleFrom(
+                                      backgroundColor: Color(0xff7c5b56),
+                                      foregroundColor: Colors.white,
+                                      disabledBackgroundColor: Color(0xff7c5b56),
+                                      disabledForegroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)
+                                      )
+                                    ),
+                                    onPressed: isProcessing == false ? () {
+                                      setState(() {
+                                        isProcessing = true;
+                                        getDrink();
+                                      });
+                                      Timer(Duration(milliseconds: 1650), () {
+                                        setState(() {
+                                          isProcessing = false;
+                                        });
+                                      });
+                                    } : null,
+                                    // onPressed: !isProcessing ? () {
+                                    //   setState(() {
+                                    //     isProcessing = true;
+                                    //     getDrink();
+                                    //     if (drinksDone) {
+                                    //       isProcessing = false;
+                                    //     }
+                                    //   });
+                                    // } : null,
+                                  ),
+                                ),
                               )
                           ),
                         ],
