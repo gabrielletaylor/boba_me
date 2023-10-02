@@ -17,6 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String dropDownValue = 'Select one', randomOrder = '', randomTopping = '', topping = '';
   var choices = ['Select one', '7 Leaves Cafe', '85°C Bakery Cafe',
                  'Ding Tea', 'Gong Cha', 'It\'s Boba Time',
+                 'Krak Boba', 'Kung Fu Tea',
                  'Omomo', 'Sharetea', 'Sunright Tea Studio',
                  'Tastea', 'Ten Ren\'s Tea Time'];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
@@ -110,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getDrink() {
-    const milli = Duration(milliseconds: 150);
+    const milli = Duration(milliseconds: 155);
     var count = 1;
     Timer.periodic(milli, (Timer timer) {
       loadDrink();
@@ -135,9 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 25,
+                    flex: 20,
                     child: Container(
-                      margin: EdgeInsets.only(top: 15),
+                      // margin: EdgeInsets.only(top: 10),
                       child: Row(
                         children: [
                           Expanded(
@@ -206,11 +207,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                          'Milk Tea',
-                                        style: TextStyle(
-                                            color: const Color(0xff7c5b56)
-                                        )
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              milkTeaCheck = milkTeaCheck ? false : true;
+                                            });
+                                          },
+                                          child: Text(
+                                            'Milk Tea',
+                                          style: TextStyle(
+                                              color: const Color(0xff7c5b56)
+                                          )
+                                          ),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(left: 15),
@@ -232,11 +240,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                            'Fruit Tea',
-                                            style: TextStyle(
-                                                color: const Color(0xff7c5b56)
-                                            )
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              fruitTeaCheck = fruitTeaCheck ? false : true;
+                                            });
+                                          },
+                                          child: Text(
+                                              'Fruit Tea',
+                                              style: TextStyle(
+                                                  color: const Color(0xff7c5b56)
+                                              )
+                                          ),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(left: 15),
@@ -258,11 +273,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                            'Tea',
-                                            style: TextStyle(
-                                                color: const Color(0xff7c5b56)
-                                            )
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              teaCheck = teaCheck ? false : true;
+                                            });
+                                          },
+                                          child: Text(
+                                              'Tea',
+                                              style: TextStyle(
+                                                  color: const Color(0xff7c5b56)
+                                              )
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -288,11 +310,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                            'Slush',
-                                            style: TextStyle(
-                                                color: const Color(0xff7c5b56)
-                                            )
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              slushCheck = slushCheck ? false : true;
+                                            });
+                                          },
+                                          child: Text(
+                                              'Slush',
+                                              style: TextStyle(
+                                                  color: const Color(0xff7c5b56)
+                                              )
+                                          ),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(left: 13),
@@ -314,11 +343,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                            'Coffee',
-                                            style: TextStyle(
-                                                color: const Color(0xff7c5b56)
-                                            )
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              coffeeCheck = coffeeCheck ? false : true;
+                                            });
+                                          },
+                                          child: Text(
+                                              'Coffee',
+                                              style: TextStyle(
+                                                  color: const Color(0xff7c5b56)
+                                              )
+                                          ),
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(left: 12),
@@ -340,11 +376,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                            'Toppings',
-                                            style: TextStyle(
-                                                color: const Color(0xff7c5b56)
-                                            )
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              toppingsCheck = toppingsCheck ? false : true;
+                                            });
+                                          },
+                                          child: Text(
+                                              'Toppings',
+                                              style: TextStyle(
+                                                  color: const Color(0xff7c5b56)
+                                              )
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -384,7 +427,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         isProcessing = true;
                                         getDrink();
                                       });
-                                      Timer(Duration(milliseconds: 1650), () {
+                                      Timer(Duration(milliseconds: 1660), () {
                                         setState(() {
                                           isProcessing = false;
                                         });
@@ -408,7 +451,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Expanded(
-                      flex: 35,
+                      flex: 40,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 30,
