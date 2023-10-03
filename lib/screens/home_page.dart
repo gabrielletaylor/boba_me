@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
               if (coffeeCheck) {
                 drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
               }
-              randomOrder += drinkList[_random.nextInt(drinkList.length)];
+              randomOrder = drinkList[_random.nextInt(drinkList.length)];
 
               if (toppingsCheck) {
                 toppingsList.addAll(getFromMap(map, 'toppings'));
@@ -107,16 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
       }).catchError((error) {});
     }
 
-    setState(() {});
+    // setState(() {});
   }
 
   void getDrink() {
-    const milli = Duration(milliseconds: 155);
+    const milli = Duration(milliseconds: 170);
     var count = 1;
     Timer.periodic(milli, (Timer timer) {
       loadDrink();
       count++;
-      if (count > 11) {
+      if (count > 10) {
         timer.cancel();
       }
     });
@@ -158,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             color: Color(0xff7c5b56)
                                         ),
                                         iconSize: 36,
-                                        elevation: 17,
+                                        // elevation: 17,
                                         style: TextStyle(color: Color(0xff7c5b56)),
                                         underline: Container(
                                           height: 2,
@@ -182,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                           );
                                         }).toList(),
-                                        // menuMaxHeight: 500,
+                                        menuMaxHeight: 430,
                                       ),
                                     ),
                                   ),
@@ -397,11 +397,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           Expanded(
                               flex: 25,
-                              // child: IconButton(
-                              //   icon: Image.asset('assets/images/splash_logo.png'),
-                              //   iconSize: 70,
-                              //   onPressed: getDrink,
-                              // )
                               child: Container(
                                 margin: EdgeInsets.only(left: 10, right: 14),
                                 child: SizedBox(
@@ -427,21 +422,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         isProcessing = true;
                                         getDrink();
                                       });
-                                      Timer(Duration(milliseconds: 1660), () {
+                                      Timer(Duration(milliseconds: 1900), () {
                                         setState(() {
                                           isProcessing = false;
                                         });
                                       });
                                     } : null,
-                                    // onPressed: !isProcessing ? () {
-                                    //   setState(() {
-                                    //     isProcessing = true;
-                                    //     getDrink();
-                                    //     if (drinksDone) {
-                                    //       isProcessing = false;
-                                    //     }
-                                    //   });
-                                    // } : null,
                                   ),
                                 ),
                               )
@@ -471,13 +457,27 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   textAlign: TextAlign.center
                               ),
-                              Text(
-                                  randomTopping,
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      color: Color(0xffdb6551)
-                                  ),
-                                  textAlign: TextAlign.center
+                              // Text(
+                              //     randomTopping,
+                              //     style: TextStyle(
+                              //         fontSize: 30,
+                              //         color: Color(0xffdb6551)
+                              //     ),
+                              //     textAlign: TextAlign.center
+                              // ),
+                              Visibility(
+                                visible: !(milkTeaCheck || fruitTeaCheck || teaCheck || slushCheck || coffeeCheck || toppingsCheck) || toppingsCheck,
+                                child: Text(
+                                    randomTopping,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        color: Color(0xffdb6551)
+                                    ),
+                                    textAlign: TextAlign.center
+                                ),
+                                maintainSize: false,
+                                maintainAnimation: true,
+                                maintainState: true,
                               ),
                             ],
                           ),
