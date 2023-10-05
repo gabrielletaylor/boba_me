@@ -1,7 +1,7 @@
-import 'package:boba_me/screens/splash_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import "package:boba_me/screens/splash_screen.dart";
+import "package:flutter/material.dart";
+import "package:firebase_core/firebase_core.dart";
+import "firebase_options.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,15 +18,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Boba Me',
+      title: "Boba Me",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: const Color(0xffb87368)
+        appBarTheme: const AppBarTheme(
+          color: Color(0xffb87368)
         ),
-        fontFamily: 'Varela Round',
+        fontFamily: "Varela Round",
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

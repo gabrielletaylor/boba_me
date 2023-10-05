@@ -9,36 +9,35 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
   void initState() {
     super.initState();
-    _navigatetohome();
+    _navigateToHome();
   }
 
-  _navigatetohome() async {
-    await Future.delayed(Duration(milliseconds: 5000), () {});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+  _navigateToHome() async {
+    await Future.delayed(const Duration(seconds: 5), () {});
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffEDDFCA),
+      backgroundColor: const Color(0xffeddfca),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Text(
-                  'Boba Me',
-                  style: TextStyle(
-                    fontFamily: 'Gaegu',
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold
-                  ),
-              )
+            const Text(
+                'Boba Me',
+                style: TextStyle(
+                  fontFamily: 'Gaegu',
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold
+                ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               height: 125,
               width: 125,
               child: Image.asset('assets/images/splash_logo.png'),
@@ -47,6 +46,5 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       )
     );
-
   }
 }

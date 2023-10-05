@@ -1,9 +1,10 @@
-import 'package:boba_me/screens/how_to_page.dart';
-import 'package:boba_me/screens/request_page.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'dart:math';
-import 'dart:async';
+// import "package:boba_me/screens/how_to_page.dart";
+// import "package:boba_me/screens/request_page.dart";
+import "package:firebase_database/firebase_database.dart";
+import "package:flutter/material.dart";
+import "package:dropdown_button2/dropdown_button2.dart";
+import "dart:math";
+import "dart:async";
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -13,20 +14,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  String dropDownValue = 'Select one', randomOrder = '', randomTopping = '', topping = '';
-  var choices = ['Select one', '7 Leaves Cafe', '85°C Bakery Cafe',
-                 'Ding Tea', 'Gong Cha', 'It\'s Boba Time',
-                 'Krak Boba', 'Kung Fu Tea',
-                 'Omomo', 'Sharetea', 'Sunright Tea Studio',
-                 'Tastea', 'Ten Ren\'s Tea Time'];
+  String randomOrder = "", randomTopping = "", topping = "";
+  String? dropdownValue;
+  var choices = ["7 Leaves Cafe", "85°C Bakery Cafe",
+                 "Ding Tea", "Gong Cha", "It's Boba Time",
+                 "Krak Boba", "Kung Fu Tea",
+                 "Omomo", "Sharetea", "Sunright Tea Studio",
+                 "Tastea", "Ten Ren's Tea Time"];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
-  bool isProcessing = false;
+  // bool isProcessing = false;
+  static const Color darkBrown = Color(0xff7c5b56);
 
-  List<String> getFromMap(Map map, String key, [String value = '']) {
+  List<String> getFromMap(Map map, String key, [String value = ""]) {
     List<String> list = [];
-    if (value != '') {
+    if (value != "") {
       if (map[key].containsKey(value)) {
         for (var val in map[key][value]) {
           list.add(val);
@@ -34,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
     else {
-      if (map.containsKey('toppings')) {
+      if (map.containsKey("toppings")) {
         for (var val in map[key]) {
           list.add(val);
         }
@@ -45,75 +47,57 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadDrink() {
     var drinkList = [], toppingsList = [];
-    final _random = Random();
+    final random = Random();
 
-    if (dropDownValue == 'Select one') {
-      randomOrder = '';
-      randomTopping = '';
-    }
-    else {
-      randomOrder = '';
-      randomTopping = '';
-      topping = '';
-      FirebaseDatabase.instance.ref('places/' +
-          dropDownValue).get()
+    if (dropdownValue != null) {
+      randomOrder = "";
+      randomTopping = "";
+      topping = "";
+      FirebaseDatabase.instance.ref("places/" +
+          dropdownValue!).get()
           .then((snapshot) {
             Map map = snapshot.value as Map;
-            if (milkTeaCheck == false && fruitTeaCheck == false && teaCheck == false
-                && slushCheck == false && coffeeCheck == false && toppingsCheck== false) {
-              drinkList.addAll(getFromMap(map, 'drinks', 'milk tea'));
-              drinkList.addAll(getFromMap(map, 'drinks', 'fruit tea'));
-              drinkList.addAll(getFromMap(map, 'drinks', 'tea'));
-              drinkList.addAll(getFromMap(map, 'drinks', 'slush'));
-              drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
-              toppingsList.addAll(getFromMap(map, 'toppings'));
-              randomOrder = drinkList[_random.nextInt(drinkList.length)];
-              topping = toppingsList[_random.nextInt(toppingsList.length)];
-              while (randomOrder.contains(topping)) {
-                topping = toppingsList[_random.nextInt(toppingsList.length)];
-              }
-              randomTopping = 'with ' + topping;
+            if (!(milkTeaCheck || fruitTeaCheck || teaCheck || slushCheck || coffeeCheck || toppingsCheck)) {
+              drinkList.addAll(getFromMap(map, "drinks", "milk tea"));
+              drinkList.addAll(getFromMap(map, "drinks", "fruit tea"));
+              drinkList.addAll(getFromMap(map, "drinks", "tea"));
+              drinkList.addAll(getFromMap(map, "drinks", "slush"));
+              drinkList.addAll(getFromMap(map, "drinks", "coffee"));
             }
 
             else {
               if (milkTeaCheck) {
-                drinkList.addAll(getFromMap(map, 'drinks', 'milk tea'));
+                drinkList.addAll(getFromMap(map, "drinks", "milk tea"));
               }
               if (fruitTeaCheck) {
-                drinkList.addAll(getFromMap(map, 'drinks', 'fruit tea'));
+                drinkList.addAll(getFromMap(map, "drinks", "fruit tea"));
               }
               if (teaCheck) {
-                drinkList.addAll(getFromMap(map, 'drinks', 'tea'));
+                drinkList.addAll(getFromMap(map, "drinks", "tea"));
               }
               if (slushCheck) {
-                drinkList.addAll(getFromMap(map, 'drinks', 'slush'));
+                drinkList.addAll(getFromMap(map, "drinks", "slush"));
               }
               if (coffeeCheck) {
-                drinkList.addAll(getFromMap(map, 'drinks', 'coffee'));
-              }
-              randomOrder = drinkList[_random.nextInt(drinkList.length)];
-
-              if (toppingsCheck) {
-                toppingsList.addAll(getFromMap(map, 'toppings'));
-                topping = toppingsList[_random.nextInt(toppingsList.length)];
-                while (randomOrder.contains(topping)) {
-                  topping = toppingsList[_random.nextInt(toppingsList.length)];
-                }
-                randomTopping = 'with ' + topping;
+                drinkList.addAll(getFromMap(map, "drinks", "coffee"));
               }
             }
+
+            randomOrder = drinkList[random.nextInt(drinkList.length)];
+            toppingsList.addAll(getFromMap(map, "toppings"));
+            do {
+              topping = toppingsList[random.nextInt(toppingsList.length)];
+            } while (randomOrder.contains(topping));
+            randomTopping = "with " + topping;
 
             setState(() {});
       }).catchError((error) {});
     }
-
-    // setState(() {});
   }
 
-  void getDrink() {
-    const milli = Duration(milliseconds: 170);
+  void getDrinks() {
     var count = 1;
-    Timer.periodic(milli, (Timer timer) {
+    Timer.periodic(const Duration(milliseconds: 160), (Timer timer) {
       loadDrink();
       count++;
       if (count > 10) {
@@ -122,13 +106,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
-          title: Text('Boba Me'),
+          title: const Text(
+              "Boba Me",
+            style: TextStyle(
+              fontFamily: "Gaegu",
+              fontSize: 30
+            ),
+          ),
         ),
         backgroundColor: Colors.white,
         body: Center(
@@ -138,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     flex: 20,
                     child: Container(
-                      // margin: EdgeInsets.only(top: 10),
+                      margin: const EdgeInsets.only(top: 20),
                       child: Row(
                         children: [
                           Expanded(
@@ -147,56 +135,112 @@ class _MyHomePageState extends State<MyHomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: 20, right: 5),
-                                    child: ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton<String>(
-                                        isExpanded: true,
-                                        value: dropDownValue,
+                                    margin: const EdgeInsets.only(left: 20),
+                                    child: DropdownButtonFormField2<String>(
+                                      isExpanded: true,
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: darkBrown,
+                                              width: 2
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: darkBrown,
+                                              width: 2
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: darkBrown,
+                                                width: 2
+                                          ),
+                                        ),
+                                      ),
+                                      hint: const Text(
+                                        "Select one",
+                                        style: TextStyle(
+                                            fontFamily: "Varela Round",
+                                            color: darkBrown,
+                                            fontSize: 20
+                                        )
+                                      ),
+                                      items: choices.map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: const TextStyle(
+                                                fontFamily: "Varela Round",
+                                                color: Color(0xffc37254),
+                                                fontSize: 20,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      value: dropdownValue,
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownValue = newValue!;
+                                        });
+                                      },
+                                      buttonStyleData: const ButtonStyleData(
+                                        padding: EdgeInsets.only(top: 2)
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        maxHeight: 360,
+                                        scrollbarTheme: ScrollbarThemeData(
+                                          radius: const Radius.circular(3),
+                                          thumbColor: MaterialStateProperty.all<Color>(const Color(0xffd3a081)),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xffffede1),
+                                          borderRadius: BorderRadius.circular(3)
+                                        ),
+                                      ),
+                                      iconStyleData: const IconStyleData(
                                         icon: Icon(
-                                            Icons.arrow_drop_down,
-                                            color: Color(0xff7c5b56)
+                                          Icons.arrow_drop_down,
+                                          color: darkBrown
                                         ),
-                                        iconSize: 36,
-                                        // elevation: 17,
-                                        style: TextStyle(color: Color(0xff7c5b56)),
-                                        underline: Container(
-                                          height: 2,
-                                          color: Color(0xff7c5b56),
-                                        ),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropDownValue = newValue!;
-                                          });
-                                        },
-                                        items: choices.map<DropdownMenuItem<String>>((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                  fontFamily: 'Varela Round',
-                                                  color: const Color(0xff7c5b56),
-                                                  fontSize: 21
-                                              ),
+                                        iconSize: 30
+                                      ),
+                                      menuItemStyleData: MenuItemStyleData(
+                                        padding: const EdgeInsets.only(left: 20),
+                                        selectedMenuItemBuilder: (ctx, child) {
+                                          return Container(
+                                            color: const Color(0xffeec9b7),
+                                            child: child,
+                                          );
+                                        }
+                                      ),
+                                      selectedItemBuilder: (BuildContext context) {
+                                        return choices.map<Widget>((String item) {
+                                          return Text(
+                                            item,
+                                            style: const TextStyle(
+                                              color: darkBrown,
+                                              fontFamily: "Varela Round",
+                                              fontSize: 20
                                             ),
                                           );
-                                        }).toList(),
-                                        menuMaxHeight: 430,
-                                      ),
+                                        }).toList();
+                                      },
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 20),
+                                    margin: const EdgeInsets.only(left: 22, top: 5),
                                     child: Row(
                                       children: [
                                         Theme(
-                                          data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                          data: ThemeData(unselectedWidgetColor: darkBrown),
                                           child: SizedBox(
                                             height: 31,
                                             width: 31,
                                             child: Checkbox(
-                                              activeColor: Color(0xff7c5b56),
+                                              activeColor: darkBrown,
                                               checkColor: Colors.white,
                                               value: milkTeaCheck,
                                               onChanged: (bool? value) {
@@ -204,6 +248,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   milkTeaCheck = value!;
                                                 });
                                               },
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(2)
+                                              )
                                             ),
                                           ),
                                         ),
@@ -213,22 +260,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                               milkTeaCheck = milkTeaCheck ? false : true;
                                             });
                                           },
-                                          child: Text(
-                                            'Milk Tea',
-                                          style: TextStyle(
-                                              color: const Color(0xff7c5b56)
-                                          )
+                                          child: const Text(
+                                            "Milk Tea",
+                                            style: TextStyle(
+                                              color: darkBrown
+                                            )
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 15),
+                                          margin: const EdgeInsets.only(left: 15),
                                           child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            data: ThemeData(unselectedWidgetColor: darkBrown),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: Color(0xff7c5b56),
+                                                activeColor: darkBrown,
                                                 checkColor: Colors.white,
                                                 value: fruitTeaCheck,
                                                 onChanged: (bool? value) {
@@ -236,6 +283,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     fruitTeaCheck = value!;
                                                   });
                                                 },
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(2)
+                                                )
                                               ),
                                             ),
                                           ),
@@ -246,22 +296,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fruitTeaCheck = fruitTeaCheck ? false : true;
                                             });
                                           },
-                                          child: Text(
-                                              'Fruit Tea',
-                                              style: TextStyle(
-                                                  color: const Color(0xff7c5b56)
-                                              )
+                                          child: const Text(
+                                            "Fruit Tea",
+                                            style: TextStyle(
+                                                color: darkBrown
+                                            )
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 15),
+                                          margin: const EdgeInsets.only(left: 15),
                                           child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            data: ThemeData(unselectedWidgetColor: darkBrown),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: Color(0xff7c5b56),
+                                                activeColor: darkBrown,
                                                 checkColor: Colors.white,
                                                 value: teaCheck,
                                                 onChanged: (bool? value) {
@@ -269,6 +319,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     teaCheck = value!;
                                                   });
                                                 },
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(2)
+                                                )
                                               ),
                                             ),
                                           ),
@@ -279,27 +332,27 @@ class _MyHomePageState extends State<MyHomePage> {
                                               teaCheck = teaCheck ? false : true;
                                             });
                                           },
-                                          child: Text(
-                                              'Tea',
-                                              style: TextStyle(
-                                                  color: const Color(0xff7c5b56)
-                                              )
+                                          child: const Text(
+                                            "Tea",
+                                            style: TextStyle(
+                                                color: darkBrown
+                                            )
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 20),
+                                    margin: const EdgeInsets.only(left: 22),
                                     child: Row(
                                       children: [
                                         Theme(
-                                          data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                          data: ThemeData(unselectedWidgetColor: darkBrown),
                                           child: SizedBox(
                                             height: 31,
                                             width: 31,
                                             child: Checkbox(
-                                              activeColor: Color(0xff7c5b56),
+                                              activeColor: darkBrown,
                                               checkColor: Colors.white,
                                               value: slushCheck,
                                               onChanged: (bool? value) {
@@ -307,6 +360,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   slushCheck = value!;
                                                 });
                                               },
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(2)
+                                              )
                                             ),
                                           ),
                                         ),
@@ -316,22 +372,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                               slushCheck = slushCheck ? false : true;
                                             });
                                           },
-                                          child: Text(
-                                              'Slush',
-                                              style: TextStyle(
-                                                  color: const Color(0xff7c5b56)
-                                              )
+                                          child: const Text(
+                                            "Slush",
+                                            style: TextStyle(
+                                                color: darkBrown
+                                            )
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 13),
+                                          margin: const EdgeInsets.only(left: 13),
                                           child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            data: ThemeData(unselectedWidgetColor: darkBrown),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: Color(0xff7c5b56),
+                                                activeColor: darkBrown,
                                                 checkColor: Colors.white,
                                                 value: coffeeCheck,
                                                 onChanged: (bool? value) {
@@ -339,6 +395,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     coffeeCheck = value!;
                                                   });
                                                 },
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(2)
+                                                )
                                               ),
                                             ),
                                           ),
@@ -349,22 +408,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                               coffeeCheck = coffeeCheck ? false : true;
                                             });
                                           },
-                                          child: Text(
-                                              'Coffee',
-                                              style: TextStyle(
-                                                  color: const Color(0xff7c5b56)
-                                              )
+                                          child: const Text(
+                                            "Coffee",
+                                            style: TextStyle(
+                                                color: darkBrown
+                                            )
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 12),
+                                          margin: const EdgeInsets.only(left: 12),
                                           child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: Color(0xff7c5b56)),
+                                            data: ThemeData(unselectedWidgetColor: darkBrown),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: Color(0xff7c5b56),
+                                                activeColor: darkBrown,
                                                 checkColor: Colors.white,
                                                 value: toppingsCheck,
                                                 onChanged: (bool? value) {
@@ -372,6 +431,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     toppingsCheck = value!;
                                                   });
                                                 },
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(2)
+                                                )
                                               ),
                                             ),
                                           ),
@@ -382,10 +444,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                               toppingsCheck = toppingsCheck ? false : true;
                                             });
                                           },
-                                          child: Text(
-                                              'Toppings',
+                                          child: const Text(
+                                              "Toppings",
                                               style: TextStyle(
-                                                  color: const Color(0xff7c5b56)
+                                                  color: darkBrown
                                               )
                                           ),
                                         ),
@@ -398,36 +460,39 @@ class _MyHomePageState extends State<MyHomePage> {
                           Expanded(
                               flex: 25,
                               child: Container(
-                                margin: EdgeInsets.only(left: 10, right: 14),
+                                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
                                 child: SizedBox(
                                   height: 42,
                                   child: FilledButton(
-                                    child: Text(
-                                      'Go',
+                                    child: const Text(
+                                      "Go",
                                       style: TextStyle(
                                         fontSize: 20,
                                       ),
                                     ),
                                     style: FilledButton.styleFrom(
-                                      backgroundColor: Color(0xff7c5b56),
+                                      backgroundColor: darkBrown,
                                       foregroundColor: Colors.white,
-                                      disabledBackgroundColor: Color(0xff7c5b56),
+                                      disabledBackgroundColor: darkBrown,
                                       disabledForegroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20)
                                       )
                                     ),
-                                    onPressed: isProcessing == false ? () {
-                                      setState(() {
-                                        isProcessing = true;
-                                        getDrink();
-                                      });
-                                      Timer(Duration(milliseconds: 1900), () {
-                                        setState(() {
-                                          isProcessing = false;
-                                        });
-                                      });
-                                    } : null,
+                                    // onPressed: isProcessing == false ? () {
+                                    //   setState(() {
+                                    //     isProcessing = true;
+                                    //     getDrink();
+                                    //   });
+                                    //   Timer(Duration(milliseconds: 1900), () {
+                                    //     setState(() {
+                                    //       isProcessing = false;
+                                    //     });
+                                    //   });
+                                    // } : null,
+                                    onPressed: () {
+                                      getDrinks();
+                                    },
                                   ),
                                 ),
                               )
@@ -439,66 +504,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                       flex: 40,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            bottom: 15
-                        ),
-                        child: Container(
-                          margin: EdgeInsets.only(top: 30),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                  randomOrder,
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    color: Color(0xff4b553a)
+                        padding: const EdgeInsets.only(left: 30, right: 30, top: 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                                randomOrder,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  color: Color(0xff4b553a)
+                                ),
+                                textAlign: TextAlign.center
+                            ),
+                            Visibility(
+                              visible: toppingsCheck || !(milkTeaCheck || fruitTeaCheck
+                                  || teaCheck || slushCheck || coffeeCheck || toppingsCheck),
+                              child: Text(
+                                  randomTopping,
+                                  style: const TextStyle(
+                                      fontSize: 30,
+                                      color: Color(0xffdb6551)
                                   ),
                                   textAlign: TextAlign.center
                               ),
-                              // Text(
-                              //     randomTopping,
-                              //     style: TextStyle(
-                              //         fontSize: 30,
-                              //         color: Color(0xffdb6551)
-                              //     ),
-                              //     textAlign: TextAlign.center
-                              // ),
-                              Visibility(
-                                visible: !(milkTeaCheck || fruitTeaCheck || teaCheck || slushCheck || coffeeCheck || toppingsCheck) || toppingsCheck,
-                                child: Text(
-                                    randomTopping,
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        color: Color(0xffdb6551)
-                                    ),
-                                    textAlign: TextAlign.center
-                                ),
-                                maintainSize: false,
-                                maintainAnimation: true,
-                                maintainState: true,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                  ),
-                  Expanded(
-                      flex: 20,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/jasmine-milk-tea.png',
-                            ),
-                            Image.asset(
-                              'assets/images/matcha-milk-tea.png',
-                            ),
-                            Image.asset(
-                              'assets/images/thai-tea.png',
+                              maintainSize: false,
+                              maintainAnimation: true,
+                              maintainState: true,
                             ),
                           ],
                         ),
@@ -507,18 +538,38 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                       flex: 20,
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 15),
+                        margin: const EdgeInsets.only(top: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              'assets/images/taro-milk-tea.png',
+                              "assets/images/jasmine-milk-tea.png",
                             ),
                             Image.asset(
-                              'assets/images/milk-tea.png',
+                              "assets/images/matcha-milk-tea.png",
                             ),
                             Image.asset(
-                              'assets/images/peach-milk-tea.png',
+                              "assets/images/thai-tea.png",
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
+                  Expanded(
+                      flex: 20,
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/taro-milk-tea.png",
+                            ),
+                            Image.asset(
+                              "assets/images/milk-tea.png",
+                            ),
+                            Image.asset(
+                              "assets/images/peach-milk-tea.png",
                             ),
                           ],
                         ),
@@ -542,9 +593,9 @@ class _MyHomePageState extends State<MyHomePage> {
       //               color: Colors.white,
       //             ),
       //             title: const Text(
-      //               'Home',
+      //               "Home",
       //               style: TextStyle(
-      //                   fontFamily: 'Varela Round',
+      //                   fontFamily: "Varela Round",
       //                   color: Colors.white,
       //                   fontSize: 25
       //               ),
@@ -561,9 +612,9 @@ class _MyHomePageState extends State<MyHomePage> {
       //               color: Colors.white,
       //             ),
       //             title: const Text(
-      //               'Request',
+      //               "Request",
       //               style: TextStyle(
-      //                   fontFamily: 'Varela Round',
+      //                   fontFamily: "Varela Round",
       //                   color: Colors.white,
       //                   fontSize: 25
       //               ),
@@ -580,9 +631,9 @@ class _MyHomePageState extends State<MyHomePage> {
       //           //     color: Colors.white,
       //           //   ),
       //           //   title: const Text(
-      //           //     'How To',
+      //           //     "How To",
       //           //     style: TextStyle(
-      //           //         fontFamily: 'Varela Round',
+      //           //         fontFamily: "Varela Round",
       //           //         color: Colors.white,
       //           //         fontSize: 25
       //           //     ),

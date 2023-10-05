@@ -214,8 +214,8 @@ class _RequestPageState extends State<RequestPage> {
                                         child: ButtonTheme(
                                           alignedDropdown: true,
                                           child: DropdownButtonFormField2(
-                                            dropdownMaxHeight: 390,
-                                            dropdownOverButton: true,
+                                            // dropdownMaxHeight: 390,
+                                            // dropdownOverButton: true,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               contentPadding: EdgeInsets.zero,
@@ -263,18 +263,18 @@ class _RequestPageState extends State<RequestPage> {
                                             style: const TextStyle(
                                                 color: Color(0xff7c5b56)
                                             ),
-                                            icon: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Color(0xff7c5b56),
-                                            ),
-                                            iconSize: 30,
-                                            scrollbarAlwaysShow: true,
-                                            scrollbarRadius: Radius.circular(6),
-                                            buttonHeight: 60,
-                                            buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                                            dropdownDecoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(6),
-                                            ),
+                                            // icon: const Icon(
+                                            //   Icons.arrow_drop_down,
+                                            //   color: Color(0xff7c5b56),
+                                            // ),
+                                            // iconSize: 30,
+                                            // scrollbarAlwaysShow: true,
+                                            // scrollbarRadius: Radius.circular(6),
+                                            // buttonHeight: 60,
+                                            // buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                                            // dropdownDecoration: BoxDecoration(
+                                            //   borderRadius: BorderRadius.circular(6),
+                                            // ),
                                             items: states.map((item) =>
                                                 DropdownMenuItem<String>(
                                                   value: item,
