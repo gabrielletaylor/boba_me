@@ -18,13 +18,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String? dropdownValue;
   var choices = ["7 Leaves Cafe", "85°C Bakery Cafe", "Cafe 86",
                  "Ding Tea", "Gong Cha", "It's Boba Time",
-                 "Krak Boba", "Kung Fu Tea",
-                 "Omomo", "Sharetea", "Sunright Tea Studio",
+                 "Krak Boba", "Kung Fu Tea", "Omomo",
+                 "Sharetea", "Sunright Tea Studio",
                  "Tastea", "Ten Ren's Tea Time"];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
   static const Color backgroundColor = Color(0xffffede1), headerColor = Color(0xffeec9b7);
-  static const Color border = Color(0xffd3a081), headerText = Color(0xffc37254);
+  static const Color borderColor = Color(0xffd3a081), headerText = Color(0xffc37254);
   static const Color text3 = Color(0xff4b553a), text4 = Color(0xffdb6551);
   static const Color accent1 = Color(0xffe2b180), accent2 = Color(0xfff38373);
   static const Color accent3 = Color(0xffb87368), accent4 = Color(0xff7c5b56);
@@ -57,8 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       randomOrder = "";
       randomTopping = "";
       topping = "";
-      FirebaseDatabase.instance.ref("places/" +
-          dropdownValue!).get()
+      FirebaseDatabase.instance.ref("places/${dropdownValue!}").get()
           .then((snapshot) {
             Map map = snapshot.value as Map;
             if (!(milkTeaCheck || fruitTeaCheck || teaCheck || slushCheck || coffeeCheck || toppingsCheck)) {
@@ -92,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
             do {
               topping = toppingsList[random.nextInt(toppingsList.length)];
             } while (randomOrder.contains(topping));
-            randomTopping = "with " + topping;
+            randomTopping = "with $topping";
 
             setState(() {});
       }).catchError((error) {});
@@ -115,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-              "Boba Me",
+            "Boba Me",
             style: TextStyle(
               fontFamily: "Gaegu",
               fontWeight: FontWeight.bold,
@@ -123,8 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
               color: headerText
             ),
           ),
-          shadowColor: border,
           backgroundColor: headerColor,
+          shadowColor: borderColor,
         ),
         backgroundColor: Colors.white,
         body: Center(
@@ -150,28 +149,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                         contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: accent4,
-                                              width: 2
+                                            color: accent4,
+                                            width: 2
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: accent4,
-                                              width: 2
+                                            color: accent4,
+                                            width: 2
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: accent4,
-                                                width: 2
+                                          borderSide: BorderSide(
+                                            color: accent4,
+                                            width: 2
                                           ),
                                         ),
                                       ),
                                       hint: const Text(
                                         "Select one",
                                         style: TextStyle(
-                                            color: accent4,
-                                            fontSize: 20
+                                          color: accent4,
+                                          fontSize: 20
                                         )
                                       ),
                                       items: choices.map<DropdownMenuItem<String>>((String choice) {
@@ -180,8 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Text(
                                             choice,
                                             style: const TextStyle(
-                                                color: accent4,
-                                                fontSize: 20,
+                                              color: accent4,
+                                              fontSize: 20,
                                             ),
                                           ),
                                         );
@@ -254,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 });
                                               },
                                               shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(3)
+                                                borderRadius: BorderRadius.circular(3)
                                               )
                                             ),
                                           ),
@@ -300,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: const Text(
                                               "Fruit Tea",
                                               style: TextStyle(
-                                                  color: accent4
+                                                color: accent4
                                               )
                                             ),
                                           ),
@@ -319,7 +318,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(3)
+                                                  borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
@@ -333,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: const Text(
                                               "Tea",
                                               style: TextStyle(
-                                                  color: accent4
+                                                color: accent4
                                               )
                                             ),
                                           ),
@@ -360,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 });
                                               },
                                               shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(3)
+                                                borderRadius: BorderRadius.circular(3)
                                               )
                                             ),
                                           ),
@@ -373,7 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: const Text(
                                               "Slush",
                                               style: TextStyle(
-                                                  color: accent4
+                                                color: accent4
                                               )
                                             ),
                                           ),
@@ -392,7 +391,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(3)
+                                                  borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
@@ -406,7 +405,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: const Text(
                                               "Coffee",
                                               style: TextStyle(
-                                                  color: accent4
+                                                color: accent4
                                               )
                                             ),
                                           ),
@@ -425,7 +424,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(3)
+                                                  borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
@@ -437,10 +436,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                               });
                                             },
                                             child: const Text(
-                                                "Toppings",
-                                                style: TextStyle(
-                                                    color: accent4
-                                                )
+                                              "Toppings",
+                                              style: TextStyle(
+                                                color: accent4
+                                              )
                                             ),
                                           ),
                                         ],
@@ -457,35 +456,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: SizedBox(
                                   height: 42,
                                   child: FilledButton(
+                                    style: FilledButton.styleFrom(
+                                      backgroundColor: accent3,
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)
+                                      )
+                                    ),
+                                    onPressed: () {
+                                      getDrinks();
+                                    },
                                     child: const Text(
                                       "Go",
                                       style: TextStyle(
                                         fontSize: 20,
                                       ),
                                     ),
-                                    style: FilledButton.styleFrom(
-                                      backgroundColor: accent3,
-                                      foregroundColor: Colors.white,
-                                      // disabledBackgroundColor: accent3,
-                                      // disabledForegroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20)
-                                      )
-                                    ),
-                                    // onPressed: isProcessing == false ? () {
-                                    //   setState(() {
-                                    //     isProcessing = true;
-                                    //     getDrink();
-                                    //   });
-                                    //   Timer(Duration(milliseconds: 1900), () {
-                                    //     setState(() {
-                                    //       isProcessing = false;
-                                    //     });
-                                    //   });
-                                    // } : null,
-                                    onPressed: () {
-                                      getDrinks();
-                                    },
                                   ),
                                 ),
                               )
@@ -502,27 +488,27 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                                randomOrder,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  color: text3
-                                ),
-                                textAlign: TextAlign.center
+                              randomOrder,
+                              style: const TextStyle(
+                                fontSize: 33,
+                                color: text3,
+                              ),
+                              textAlign: TextAlign.center
                             ),
                             Visibility(
                               visible: toppingsCheck || !(milkTeaCheck || fruitTeaCheck
                                   || teaCheck || slushCheck || coffeeCheck || toppingsCheck),
-                              child: Text(
-                                  randomTopping,
-                                  style: const TextStyle(
-                                      fontSize: 30,
-                                      color: text4
-                                  ),
-                                  textAlign: TextAlign.center
-                              ),
                               maintainSize: false,
                               maintainAnimation: true,
                               maintainState: true,
+                              child: Text(
+                                  randomTopping,
+                                  style: const TextStyle(
+                                    fontSize: 33,
+                                    color: text4,
+                                  ),
+                                  textAlign: TextAlign.center
+                              ),
                             ),
                           ],
                         ),

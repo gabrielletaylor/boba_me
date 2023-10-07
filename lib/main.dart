@@ -22,13 +22,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xffeec9b7),
           titleTextStyle: TextStyle(
             fontFamily: "Gaegu",
             fontWeight: FontWeight.bold,
             fontSize: 35,
             color: Color(0xffc37254),
-          )
+          ),
+          backgroundColor: Color(0xffeec9b7),
+          shadowColor: Color(0xffd3a081)
         ),
         fontFamily: "Varela Round",
       ),
