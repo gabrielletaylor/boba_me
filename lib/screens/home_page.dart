@@ -16,15 +16,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String randomOrder = "", randomTopping = "", topping = "";
   String? dropdownValue;
-  var choices = ["7 Leaves Cafe", "85°C Bakery Cafe",
+  var choices = ["7 Leaves Cafe", "85°C Bakery Cafe", "Cafe 86",
                  "Ding Tea", "Gong Cha", "It's Boba Time",
                  "Krak Boba", "Kung Fu Tea",
                  "Omomo", "Sharetea", "Sunright Tea Studio",
                  "Tastea", "Ten Ren's Tea Time"];
   bool milkTeaCheck = false, fruitTeaCheck = false, teaCheck = false;
   bool slushCheck = false, coffeeCheck = false, toppingsCheck = false;
-  // bool isProcessing = false;
-  static const Color darkBrown = Color(0xff7c5b56);
+  static const Color backgroundColor = Color(0xffffede1), headerColor = Color(0xffeec9b7);
+  static const Color border = Color(0xffd3a081), headerText = Color(0xffc37254);
+  static const Color text3 = Color(0xff4b553a), text4 = Color(0xffdb6551);
+  static const Color accent1 = Color(0xffe2b180), accent2 = Color(0xfff38373);
+  static const Color accent3 = Color(0xffb87368), accent4 = Color(0xff7c5b56);
+  static const Color accent5 = Color(0xffbd9a82);
 
   List<String> getFromMap(Map map, String key, [String value = ""]) {
     List<String> list = [];
@@ -114,9 +118,13 @@ class _MyHomePageState extends State<MyHomePage> {
               "Boba Me",
             style: TextStyle(
               fontFamily: "Gaegu",
-              fontSize: 30
+              fontWeight: FontWeight.bold,
+              fontSize: 35,
+              color: headerText
             ),
           ),
+          shadowColor: border,
+          backgroundColor: headerColor,
         ),
         backgroundColor: Colors.white,
         body: Center(
@@ -139,22 +147,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: DropdownButtonFormField2<String>(
                                       isExpanded: true,
                                       decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+                                        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: darkBrown,
+                                              color: accent4,
                                               width: 2
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: darkBrown,
+                                              color: accent4,
                                               width: 2
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: darkBrown,
+                                                color: accent4,
                                                 width: 2
                                           ),
                                         ),
@@ -162,19 +170,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                       hint: const Text(
                                         "Select one",
                                         style: TextStyle(
-                                            fontFamily: "Varela Round",
-                                            color: darkBrown,
+                                            color: accent4,
                                             fontSize: 20
                                         )
                                       ),
-                                      items: choices.map<DropdownMenuItem<String>>((String value) {
+                                      items: choices.map<DropdownMenuItem<String>>((String choice) {
                                         return DropdownMenuItem<String>(
-                                          value: value,
+                                          value: choice,
                                           child: Text(
-                                            value,
+                                            choice,
                                             style: const TextStyle(
-                                                fontFamily: "Varela Round",
-                                                color: Color(0xffc37254),
+                                                color: accent4,
                                                 fontSize: 20,
                                             ),
                                           ),
@@ -187,43 +193,42 @@ class _MyHomePageState extends State<MyHomePage> {
                                         });
                                       },
                                       buttonStyleData: const ButtonStyleData(
-                                        padding: EdgeInsets.only(top: 2)
+                                        padding: EdgeInsets.only(top: 2),
                                       ),
                                       dropdownStyleData: DropdownStyleData(
                                         maxHeight: 360,
                                         scrollbarTheme: ScrollbarThemeData(
                                           radius: const Radius.circular(3),
-                                          thumbColor: MaterialStateProperty.all<Color>(const Color(0xffd3a081)),
+                                          thumbColor: MaterialStateProperty.all<Color>(accent4),
                                         ),
                                         decoration: BoxDecoration(
-                                          color: const Color(0xffffede1),
+                                          color: Colors.white,
                                           borderRadius: BorderRadius.circular(3)
                                         ),
                                       ),
                                       iconStyleData: const IconStyleData(
                                         icon: Icon(
                                           Icons.arrow_drop_down,
-                                          color: darkBrown
+                                          color: accent4
                                         ),
                                         iconSize: 30
                                       ),
                                       menuItemStyleData: MenuItemStyleData(
                                         padding: const EdgeInsets.only(left: 20),
-                                        selectedMenuItemBuilder: (ctx, child) {
+                                        selectedMenuItemBuilder: (context, child) {
                                           return Container(
-                                            color: const Color(0xffeec9b7),
-                                            child: child,
+                                            color: accent5,
+                                            child: child
                                           );
                                         }
                                       ),
                                       selectedItemBuilder: (BuildContext context) {
-                                        return choices.map<Widget>((String item) {
+                                        return choices.map<Widget>((String choice) {
                                           return Text(
-                                            item,
+                                            choice,
                                             style: const TextStyle(
-                                              color: darkBrown,
-                                              fontFamily: "Varela Round",
-                                              fontSize: 20
+                                              color: accent4,
+                                              fontSize: 20,
                                             ),
                                           );
                                         }).toList();
@@ -231,16 +236,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   Container(
-                                    margin: const EdgeInsets.only(left: 22, top: 5),
-                                    child: Row(
-                                      children: [
-                                        Theme(
-                                          data: ThemeData(unselectedWidgetColor: darkBrown),
-                                          child: SizedBox(
+                                    margin: const EdgeInsets.only(left: 23, top: 5),
+                                    child: Theme(
+                                      data: ThemeData(unselectedWidgetColor: accent4),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
                                             height: 31,
                                             width: 31,
                                             child: Checkbox(
-                                              activeColor: darkBrown,
+                                              activeColor: accent4,
                                               checkColor: Colors.white,
                                               value: milkTeaCheck,
                                               onChanged: (bool? value) {
@@ -249,33 +254,30 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 });
                                               },
                                               shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(2)
+                                                  borderRadius: BorderRadius.circular(3)
                                               )
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              milkTeaCheck = milkTeaCheck ? false : true;
-                                            });
-                                          },
-                                          child: const Text(
-                                            "Milk Tea",
-                                            style: TextStyle(
-                                              color: darkBrown
-                                            )
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                milkTeaCheck = milkTeaCheck ? false : true;
+                                              });
+                                            },
+                                            child: const Text(
+                                              "Milk Tea",
+                                              style: TextStyle(
+                                                color: accent4
+                                              )
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 15),
-                                          child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: darkBrown),
+                                          Container(
+                                            margin: const EdgeInsets.only(left: 15),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: darkBrown,
+                                                activeColor: accent4,
                                                 checkColor: Colors.white,
                                                 value: fruitTeaCheck,
                                                 onChanged: (bool? value) {
@@ -284,34 +286,31 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(2)
+                                                  borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              fruitTeaCheck = fruitTeaCheck ? false : true;
-                                            });
-                                          },
-                                          child: const Text(
-                                            "Fruit Tea",
-                                            style: TextStyle(
-                                                color: darkBrown
-                                            )
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                fruitTeaCheck = fruitTeaCheck ? false : true;
+                                              });
+                                            },
+                                            child: const Text(
+                                              "Fruit Tea",
+                                              style: TextStyle(
+                                                  color: accent4
+                                              )
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 15),
-                                          child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: darkBrown),
+                                          Container(
+                                            margin: const EdgeInsets.only(left: 15),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: darkBrown,
+                                                activeColor: accent4,
                                                 checkColor: Colors.white,
                                                 value: teaCheck,
                                                 onChanged: (bool? value) {
@@ -320,39 +319,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(2)
+                                                    borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              teaCheck = teaCheck ? false : true;
-                                            });
-                                          },
-                                          child: const Text(
-                                            "Tea",
-                                            style: TextStyle(
-                                                color: darkBrown
-                                            )
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                teaCheck = teaCheck ? false : true;
+                                              });
+                                            },
+                                            child: const Text(
+                                              "Tea",
+                                              style: TextStyle(
+                                                  color: accent4
+                                              )
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Container(
-                                    margin: const EdgeInsets.only(left: 22),
-                                    child: Row(
-                                      children: [
-                                        Theme(
-                                          data: ThemeData(unselectedWidgetColor: darkBrown),
-                                          child: SizedBox(
+                                    margin: const EdgeInsets.only(left: 23),
+                                    child: Theme(
+                                      data: ThemeData(unselectedWidgetColor: accent4),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
                                             height: 31,
                                             width: 31,
                                             child: Checkbox(
-                                              activeColor: darkBrown,
+                                              activeColor: accent4,
                                               checkColor: Colors.white,
                                               value: slushCheck,
                                               onChanged: (bool? value) {
@@ -361,33 +360,30 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 });
                                               },
                                               shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(2)
+                                                  borderRadius: BorderRadius.circular(3)
                                               )
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              slushCheck = slushCheck ? false : true;
-                                            });
-                                          },
-                                          child: const Text(
-                                            "Slush",
-                                            style: TextStyle(
-                                                color: darkBrown
-                                            )
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                slushCheck = slushCheck ? false : true;
+                                              });
+                                            },
+                                            child: const Text(
+                                              "Slush",
+                                              style: TextStyle(
+                                                  color: accent4
+                                              )
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 13),
-                                          child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: darkBrown),
+                                          Container(
+                                            margin: const EdgeInsets.only(left: 13),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: darkBrown,
+                                                activeColor: accent4,
                                                 checkColor: Colors.white,
                                                 value: coffeeCheck,
                                                 onChanged: (bool? value) {
@@ -396,34 +392,31 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(2)
+                                                    borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              coffeeCheck = coffeeCheck ? false : true;
-                                            });
-                                          },
-                                          child: const Text(
-                                            "Coffee",
-                                            style: TextStyle(
-                                                color: darkBrown
-                                            )
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                coffeeCheck = coffeeCheck ? false : true;
+                                              });
+                                            },
+                                            child: const Text(
+                                              "Coffee",
+                                              style: TextStyle(
+                                                  color: accent4
+                                              )
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 12),
-                                          child: Theme(
-                                            data: ThemeData(unselectedWidgetColor: darkBrown),
+                                          Container(
+                                            margin: const EdgeInsets.only(left: 12),
                                             child: SizedBox(
                                               height: 31,
                                               width: 31,
                                               child: Checkbox(
-                                                activeColor: darkBrown,
+                                                activeColor: accent4,
                                                 checkColor: Colors.white,
                                                 value: toppingsCheck,
                                                 onChanged: (bool? value) {
@@ -432,26 +425,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   });
                                                 },
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(2)
+                                                    borderRadius: BorderRadius.circular(3)
                                                 )
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              toppingsCheck = toppingsCheck ? false : true;
-                                            });
-                                          },
-                                          child: const Text(
-                                              "Toppings",
-                                              style: TextStyle(
-                                                  color: darkBrown
-                                              )
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                toppingsCheck = toppingsCheck ? false : true;
+                                              });
+                                            },
+                                            child: const Text(
+                                                "Toppings",
+                                                style: TextStyle(
+                                                    color: accent4
+                                                )
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   )
                                 ],
@@ -471,10 +464,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ),
                                     style: FilledButton.styleFrom(
-                                      backgroundColor: darkBrown,
+                                      backgroundColor: accent3,
                                       foregroundColor: Colors.white,
-                                      disabledBackgroundColor: darkBrown,
-                                      disabledForegroundColor: Colors.white,
+                                      // disabledBackgroundColor: accent3,
+                                      // disabledForegroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20)
                                       )
@@ -504,7 +497,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                       flex: 40,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 30, right: 30, top: 15),
+                        padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -512,7 +505,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 randomOrder,
                                 style: const TextStyle(
                                   fontSize: 30,
-                                  color: Color(0xff4b553a)
+                                  color: text3
                                 ),
                                 textAlign: TextAlign.center
                             ),
@@ -523,7 +516,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   randomTopping,
                                   style: const TextStyle(
                                       fontSize: 30,
-                                      color: Color(0xffdb6551)
+                                      color: text4
                                   ),
                                   textAlign: TextAlign.center
                               ),
