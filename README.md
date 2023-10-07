@@ -1,16 +1,13 @@
-# boba_me
+# Boba Me
 
-A new Flutter project.
+Check out Boba Me on the Google Play Store here: https://play.google.com/store/apps/details?id=edu.cpp.gtdavid.boba_me
+
+Do you have a boba craving but don't know what drink to get? Boba Me lets you choose from your favorite boba shops and will generate a random drink from their menu. Got preferences? Want only milk tea or fruit tea and no toppings? Check the boxes with your preferences, and Boba Me can generate a random drink just for you!
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+How to use Boba Me:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Select a boba place from the dropdown menu
+2. If you have preferences for your drink, check the corresponding boxes
+3. Press "Go" to let Boba Me generate a random drink just for you!
