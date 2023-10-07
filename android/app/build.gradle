@@ -50,7 +50,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "edu.cpp.gtdavid.boba_me"
-        minSdkVersion 19
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -79,6 +79,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation "com.google.android.material:material:<1.11.0-alpha03>"
     // in below line we are adding configurations to to our project.
     configurations.all {
         // in below line we are adding strategy for each dependency and requesting the details

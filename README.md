@@ -1,6 +1,7 @@
 # Boba Me
 
-Check out Boba Me on the Google Play Store here: https://play.google.com/store/apps/details?id=edu.cpp.gtdavid.boba_me
+Check out Boba Me on the Google Play Store here: 
+https://play.google.com/store/apps/details?id=edu.cpp.gtdavid.boba_me
 
 Do you have a boba craving but don't know what drink to get? Boba Me lets you choose from your favorite boba shops and will generate a random drink from their menu. Got preferences? Want only milk tea or fruit tea and no toppings? Check the boxes with your preferences, and Boba Me can generate a random drink just for you!
 
